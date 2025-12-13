@@ -2,17 +2,21 @@ import os
 import logging
 import functools
 
+
 class FileNotFound(Exception):
     pass
 
+
 class FileCorrupted(Exception):
     pass
+
 
 def get_logger(mode):
     logger = logging.getLogger("file_logger")
 
     if logger.handlers:
         return logger
+
 
     logger.setLevel(logging.DEBUG)
 
@@ -26,6 +30,7 @@ def get_logger(mode):
     logger.addHandler(handler)
 
     return logger
+
 
 def logged(exception_types, mode="console"):
     def decorator(func):
@@ -45,7 +50,7 @@ def logged(exception_types, mode="console"):
 
 
 class FileHandler:
-    @logged((FileNotFound, FileCorrupted), mode="console") 
+    @logged((FileNotFound, FileCorrupted), mode="console")
     def __init__(self, path):
         self.path = os.path.abspath(path)
 
@@ -80,7 +85,6 @@ class FileHandler:
             raise FileCorrupted("Неможливо дописати у файл")
 
 
-
 if __name__ == "__main__":
     file_path = "labor_6.txt"
 
@@ -91,15 +95,15 @@ if __name__ == "__main__":
     try:
         fh = FileHandler(file_path)
     except Exception as e:
-        print("Помилка при створенні:", e)
+        print("Помилка при створенні: ", e)
         exit()
 
     try:
         content = fh.read()
-        print("\nВміст файлу:")
+        print("\nВміст файлу: ")
         print(content if content else "(Файл порожній)")
 
-        print("\nСтатистика літер:")
+        print("\nСтатистика літер: ")
         ukr_alphabet = "абвгґдеєжзиіїйклмнопрстуфхцчшщьюя"
         lower_content = content.lower()
 
@@ -118,4 +122,4 @@ if __name__ == "__main__":
         fh.append(add_text + "\n")
         print("Текст дописано.")
     except Exception as e:
-        print("Помилка виконання:", e)
+        print("Помилка виконання: ", e)
