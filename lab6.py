@@ -17,7 +17,6 @@ def get_logger(mode):
     if logger.handlers:
         return logger
 
-
     logger.setLevel(logging.DEBUG)
 
     if mode == "console":
